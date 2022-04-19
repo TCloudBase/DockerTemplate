@@ -51,7 +51,7 @@ RUN PHP_VERSION=$(php -v | head -n1 | cut -d' ' -f2 | cut -d. -f1-2) \
 
 如果有一个java项目，一般是springboot或者其他框架项目，构建产物为jar包，同时需要nginx做反向代理，实现一些扩展需求，则可以参考此项目。
 
-此处Dockerfile中最后CMD命令，是执行sh文件，可以在dist/start.sh编写修改。
+此处Dockerfile中最后CMD命令，是执行sh文件，可以在 `dist/start.sh` 编写修改。
 
 Nginx分发配置，可以直接修改 `dist/my.conf`
 
