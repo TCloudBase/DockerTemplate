@@ -39,6 +39,45 @@ RUN PHP_VERSION=$(php -v | head -n1 | cut -d' ' -f2 | cut -d. -f1-2) \
     && rm -rf /tmp/sourceguardian
 ```
 
+#### 4. [jetty应用模版](./jetty)
+
+如果你需要使用jetty来部署web应用，可以参考此案例。有些同学在podman上可以正常运行，迁移到云托管就一直启动不起来。
+
+在这里需要注意，**微信云托管的k8s底层，使用的是docker，需要在我们提供的镜像在启动时运行一个守护进程(docker daemon)，而podman不需要；** 所以这里就产生了差异。
+
+在这里我们提供了一个可以适用于云托管的docker模板，可以自行取用。
+
+#### 5. [Nginx+java-openjdk分发模版](./nginxjava/)
+
+如果有一个java项目，一般是springboot或者其他框架项目，构建产物为jar包，同时需要nginx做反向代理，实现一些扩展需求，则可以参考此项目。
+
+此处Dockerfile中最后CMD命令，是执行sh文件，可以在dist/start.sh编写修改。
+
+Nginx分发配置，可以直接修改 `dist/my.conf`
+
+很多情况下，你需要将自己的域名根路径自动跳转成www开头，这种就可以使用nginx域名规则配置
+
+比如，你想使用户在访问 `cloudbase.net` 时，自动路由为 `www.cloudbase.net`
+
+nginx配置如下：
+
+``` conf
+# 前面的配置省略，请参考nginx规则
+server {
+    listen       80;
+    server_name  cloudbase.net www.cloudbase.net;
+    if ($host != 'www.cloudbase.net') {
+        rewrite ^/(.*)$ http://www.cloudbase.net/$1 permanent;
+    }
+    location / {
+        # 你的其他路由规则，按照你的需要配置
+        # proxy_pass http://127.0.0.1:8080/;
+    }
+}
+```
+
+同时需要在云托管服务自定义域名，配置 `cloudbase.net` 和 `www.cloudbase.net` 指向此服务
+
 ## 二、贡献者征集
 
 欢迎有经验的开发者来贡献自己认为比较常用的项目包，直接提交PR，我们会在review后合并到项目里。
