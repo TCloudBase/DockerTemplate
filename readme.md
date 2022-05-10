@@ -78,6 +78,25 @@ server {
 
 同时需要在云托管服务自定义域名，配置 `cloudbase.net` 和 `www.cloudbase.net` 指向此服务
 
+#### 6. [Nginx+Node简易WebSocket](./websocket/)
+
+使用Node.js构建了一个简单的WebSocket服务，直接链接最终域名根目录即可使用，用于测试微信云托管与客户端的连通性。
+
+nginx转发配置，可以直接修改my.conf内容，启动命令在app/start.sh中修改
+
+由于历史原因，部分服务提供的默认域名仍然不支持websocket，可以按照以下程式转换一下。
+
+``` js
+function getwsurl(envid,url){
+    return url.replace(/[-][0-9]*[-]/,`-${envid}-`).replace('tcloudbase.com','wxcloudrun.com').replace('https://','wss://')
+}
+
+getwsurl('你的环境ID','服务默认域名')
+
+// getwsurl('wxrun-demo','https://wss-923625-1300000000.ap-shanghai.run.tcloudbase.com')
+// wss://wss-wxrun-demo-1300000000.ap-shanghai.run.wxcloudrun.com
+```
+
 ## 二、贡献者征集
 
 欢迎有经验的开发者来贡献自己认为比较常用的项目包，直接提交PR，我们会在review后合并到项目里。

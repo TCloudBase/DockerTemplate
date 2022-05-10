@@ -1,0 +1,13 @@
+{
+  "name": "werun-websocket",
+  "version": "1.0.0",
+  "description": "Simple websocket sample in Node",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "zirali",
+  "dependencies": {
+    "nodejs-websocket": "^1.7.2"
+  }
+}
