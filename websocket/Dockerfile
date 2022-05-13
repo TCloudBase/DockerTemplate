@@ -8,7 +8,7 @@ COPY app/package*.json ./
 
 RUN npm config set registry https://mirrors.tencent.com/npm/ && npm install
 
-COPY my.conf /etc/nginx/conf.d/default.conf
+COPY my.conf /etc/nginx/nginx.conf
 
 COPY app ./
 
